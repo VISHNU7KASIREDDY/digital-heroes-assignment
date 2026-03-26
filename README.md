@@ -11,6 +11,10 @@ A production-ready MERN stack application allowing users to log golf scores, par
 - **Admin Dashboard**: Manage draws, view analytics, manage charities, approve/pay out winnings.
 - **Modern UI**: React 18, Vite, Framer Motion, Tailwind CSS with an earthy, modern, non-cliché aesthetic.
 
+## 🌟 Core Business Logic
+- **Charity Contribution Engine:** When a user's subscription successfully renews (via Stripe `checkout.session.completed` / `invoice.paid` webhooks), the exact percentage (minimum 10%) chosen by the user is mathematically calculated and immediately added to their selected Charity's donation pool in MongoDB.
+- **Automated Draw Execution:** A scheduled background `node-cron` job runs automatically at midnight on the 1st of every month to execute the draw logic, assign payouts (40% Jackpot, 35% Tier 2, 25% Tier 3), and rollover the jackpots if nobody matches 5 numbers.
+
 ## Folder Structure
 ```
 Digital Heroes Assignment/

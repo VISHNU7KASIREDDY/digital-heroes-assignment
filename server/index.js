@@ -51,6 +51,16 @@ mongoose
   .connect(process.env.MONGO_URI || 'mongodb://localhost:27017/golf_charity')
   .then(() => {
     console.log('MongoDB Connected');
+    
+    // Setup Cron Jobs
+    const cron = require('node-cron');
+    const { autoPublishMonthlyDraw } = require('./controllers/drawController');
+    // Run at 00:00 on day-of-month 1
+    cron.schedule('0 0 1 * *', () => {
+      console.log('[CRON] Executing monthly automated draw...');
+      autoPublishMonthlyDraw();
+    });
+
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   })
   .catch((err) => {

@@ -103,9 +103,10 @@ export default function Register() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
-              <label className="block text-sm font-medium text-brand-700 mb-1.5 ml-1">Select Charity</label>
-              <select name="charityId" required className="input-field bg-white" value={formData.charityId} onChange={handleChange}>
+              <label className="block text-sm font-medium text-brand-700 mb-1.5 ml-1">Select Charity (Optional)</label>
+              <select name="charityId" className="input-field bg-white" value={formData.charityId} onChange={handleChange}>
                 <option value="" disabled>Choose a cause...</option>
+                {charities.length === 0 && <option value="" disabled>No causes available yet</option>}
                 {charities.map(c => (
                   <option key={c._id} value={c._id}>{c.name}</option>
                 ))}

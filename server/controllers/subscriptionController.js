@@ -64,6 +64,18 @@ exports.stripeWebhook = async (req, res) => {
           },
           { upsert: true }
         );
+
+        // --- CHARITY CONTRIBUTION LOGIC ---
+        const userDoc = await User.findById(userId);
+        if (userDoc && userDoc.charityId) {
+          const charityPercentage = userDoc.charityPercentage || 10;
+          const charityAmountCents = Math.floor(session.amount_total * (charityPercentage / 100));
+          
+          const Charity = require('../models/Charity');
+          await Charity.findByIdAndUpdate(userDoc.charityId, {
+            $inc: { totalDonations: charityAmountCents }
+          });
+        }
       }
     } else if (event.type === 'customer.subscription.updated') {
       const subscription = event.data.object;
